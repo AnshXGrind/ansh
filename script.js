@@ -69,7 +69,8 @@ function setGalleryGlows() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             const w = canvas.width = Math.min(40, img.naturalWidth);
-            const h = canvas.height = Math.min(40, img.naturalHeight);
+            const h = c
+            anvas.height = Math.min(40, img.naturalHeight);
             ctx.drawImage(img, 0, 0, w, h);
             const data = ctx.getImageData(0, 0, w, h).data;
 

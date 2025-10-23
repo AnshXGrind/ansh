@@ -606,6 +606,7 @@ body {
 
 @media (max-width: 768px) {
     .hero-video { max-height: 40vh; }
+    .hero-image { max-height: 40vh; }
 }
 
 /* Featured Reels Section */
