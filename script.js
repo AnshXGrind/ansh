@@ -538,46 +538,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -----------------------------
-    // Lightbox open/close and related list
+    // Lightbox functionality removed to prevent overlay issues  
     // -----------------------------
-    const lightbox = document.getElementById('video-lightbox');
-    const lightboxPlayer = document.getElementById('lightbox-player');
-    const lightboxTitle = document.getElementById('lightbox-title');
-    const lightboxDesc = document.getElementById('lightbox-desc');
-    const lightboxRelated = document.getElementById('lightbox-related-list');
-    const lightboxClose = document.getElementById('lightbox-close');
 
-    function openLightboxWithIndex(idx) {
-        const items = Array.from(videosPlaylist.querySelectorAll('.video-item'));
-        if (!items[idx]) return;
-        const src = items[idx].getAttribute('data-src');
-        const title = items[idx].textContent.trim();
-        // fill player and meta
-        if (lightboxPlayer) {
-            lightboxPlayer.src = src;
-            lightboxPlayer.currentTime = 0;
-            // ensure poster removed so play starts visually
-            lightboxPlayer.removeAttribute('poster');
-        }
-        if (lightboxTitle) lightboxTitle.textContent = title;
-        if (lightboxDesc) lightboxDesc.textContent = title;
-        // populate related list with other videos (simple implementation)
-        if (lightboxRelated) {
-            lightboxRelated.innerHTML = '';
-            items.forEach((it, i) => {
-                const li = document.createElement('li');
-                li.textContent = it.textContent.trim();
-                li.addEventListener('click', () => { openLightboxWithIndex(i); });
-                if (i === idx) li.classList.add('playing');
-                lightboxRelated.appendChild(li);
-            });
-        }
-        // show lightbox and play
-        if (lightbox) { lightbox.setAttribute('aria-hidden', 'false'); lightbox.classList.add('show'); }
-        try { if (bgMusic && !bgMusic.paused) bgMusic.pause(); } catch (e) {}
-        // user gesture is the click that triggered this, so play should be allowed
-        if (lightboxPlayer) lightboxPlayer.play().catch(() => {});
-    }
+    // Lightbox function removed to prevent overlay issues
 
     function closeLightbox() {
         if (lightboxPlayer) { try { lightboxPlayer.pause(); } catch (e) {} lightboxPlayer.src = ''; }

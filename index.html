@@ -6,29 +6,37 @@
     <title>Ansh - Personal Website</title>
     <meta name="description" content="Welcome to Ansh's personal website - showcasing projects, skills, and experiences">
     <meta name="keywords" content="Ansh, portfolio, web development, projects">
-    <link rel="stylesheet" href="style.css"></head>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Ansh - Personal Website">
+    <meta property="og:description" content="Welcome to Ansh's personal website - showcasing projects, skills, and experiences">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <body>
-
-    <!-- Open Graph Meta Tags -->    <nav class="navbar">
-
-    <meta property="og:title" content="Ansh - Personal Website">        <div class="nav-logo">Saksham Garg</div>
-
-    <meta property="og:description" content="Welcome to Ansh's personal website - showcasing projects, skills, and experiences">        <ul class="nav-links">
-
-    <meta property="og:type" content="website">            <li><a href="#home">Home</a></li>
-
-                <li><a href="#gallery">Gallery</a></li>
-
-    <!-- Favicon -->            <li><a href="#skills">Skills</a></li>
-
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🚀</text></svg>">                <li class="nav-item nav-music"><button id="top-music-btn" class="icon-btn" aria-pressed="false" aria-controls="music-panel">Music</button></li>
-
-                    <li class="nav-item nav-videos"><button id="top-videos-btn" class="icon-btn" aria-pressed="false" aria-controls="videos-panel">Videos</button></li>
-
-    <!-- Stylesheets -->            <li><a href="#contact">Contact</a></li>
-
-    <link rel="stylesheet" href="style.css">        </ul>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo" title="Home">
+                <span class="logo-emoji">🚀</span>
+                <span class="logo-text">Ansh</span>
+            </a>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
 
             <!-- AI Brain Link - Prominent Oval Bubble -->
 
@@ -40,37 +48,10 @@
 
 <body>            <span class="ai-brain-pulse"></span>
 
-    <!-- Video lightbox (YouTube-style) -->
-    <div id="video-lightbox" class="video-lightbox" aria-hidden="true">        <div class="video-lightbox-inner">
-
-    </div>            <button id="lightbox-close" class="lightbox-close" aria-label="Close">✕</button>
-
-            <div class="lightbox-player-wrap">
-
-    <!-- Navigation -->                <video id="lightbox-player" controls preload="metadata"></video>
-
-    <nav class="navbar">            </div>
-
-        <div class="nav-container">            <div class="lightbox-meta">
-
-            <a href="#home" class="nav-logo" title="Home">
-                <span class="logo-emoji">🚀</span>
-                <span class="logo-text">Ansh</span>
-            </a>            <aside class="lightbox-related">
-
-                            <h4>Related</h4>
-
-            <div class="nav-menu" id="nav-menu">                <ul id="lightbox-related-list"></ul>
-
-                <a href="#home" class="nav-link">Home</a>            </aside>
-
-                <a href="#about" class="nav-link">About</a>        </div>
-
-                <a href="#projects" class="nav-link">Projects</a>    </div>
-
-                <a href="#skills" class="nav-link">Skills</a>
-
-                <a href="#contact" class="nav-link">Contact</a>    <!-- Music panel (hidden by default) -->
+    <!-- Navigation -->
+    <nav class="navbar">
+    
+    <!-- Hero Section -->
 
             </div>    <aside id="music-panel" class="music-panel" aria-hidden="true">
 
@@ -116,31 +97,21 @@
 
                     <p class="hero-description">            </div>
 
-                        I build modern web applications and digital experiences that make a difference.            <div class="music-import">
+                        I build modern web applications and digital experiences that make a difference.
+                        Passionate about clean code, innovative solutions, and bringing ideas to life.
+                    </p>
 
-                        Passionate about clean code, innovative solutions, and bringing ideas to life.                <button id="music-add-files-btn" class="ctrl" aria-label="Add local audio files">Add files</button>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">
+                            <span>View My Work</span>
+                            <i class="btn-icon">→</i>
 
-                    </p>                <input id="music-file-input" class="hidden-input" type="file" accept="audio/*" multiple>
-
-                                </div>
-
-                    <div class="hero-buttons">            <ul id="music-playlist" class="music-playlist">
-
-                        <a href="#projects" class="btn btn-primary">                <!-- Audio files removed to reduce repository size -->
-
-                            <span>View My Work</span>                <!-- You can add your own local files using the "Add files" button -->
-
-                            <i class="btn-icon">→</i>                <li class="playlist-item" data-src="assets/mystery-magic-harry-potter-music-390835.mp3">Mystery Magic</li>
-
-                        </a>                <li class="playlist-item" data-src="assets/long-whoosh-194554.mp3">Whoosh (demo)</li>
-
-                        <a href="#contact" class="btn btn-secondary">            </ul>
-
-                            <span>Get In Touch</span>            <audio id="music-audio" preload="none"></audio>
-
-                            <i class="btn-icon">✉</i>        </div>
-
-                        </a>    </aside>
+                        </a>
+                        <a href="#contact" class="btn btn-secondary">
+                            <span>Get In Touch</span>
+                            <i class="btn-icon">✉</i>
+                        </a>
+                    </div>
 
                     </div>
 
@@ -637,11 +608,10 @@
 
                             </div>    <script async src="https://www.instagram.com/embed.js"></script>
 
-                        </div>    <script src="script.js"></script>
-
-                        <div class="skill-item"></body>
-
-                            <span class="skill-name">REST APIs</span></html>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <span class="skill-name">REST APIs</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" data-width="85%"></div>
                             </div>
