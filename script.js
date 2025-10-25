@@ -226,28 +226,164 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // ===== PROJECT CARDS TILT EFFECT =====
-    const projectCards = document.querySelectorAll('.project-card');
+    // ===== 3D CAROUSEL FUNCTIONALITY =====
+    const carousel = document.getElementById('projectCarousel');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const currentProjectSpan = document.querySelector('.current-project');
     
-    projectCards.forEach(card => {
-        card.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+    let currentSlide = 0;
+    let isAnimating = false;
+    
+    function updateCarousel() {
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        carouselItems.forEach((item, index) => {
+            item.classList.remove('active', 'prev', 'next', 'far-prev', 'far-next');
             
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
-            
-            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
+            if (index === currentSlide) {
+                item.classList.add('active');
+            } else if (index === (currentSlide - 1 + carouselItems.length) % carouselItems.length) {
+                item.classList.add('prev');
+            } else if (index === (currentSlide + 1) % carouselItems.length) {
+                item.classList.add('next');
+            } else if (index === (currentSlide - 2 + carouselItems.length) % carouselItems.length) {
+                item.classList.add('far-prev');
+            } else if (index === (currentSlide + 2) % carouselItems.length) {
+                item.classList.add('far-next');
+            }
+        });
+        
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentSlide);
+        });
+        
+        // Update counter
+        currentProjectSpan.textContent = String(currentSlide + 1).padStart(2, '0');
+        
+        setTimeout(() => {
+            isAnimating = false;
+        }, 800);
+    }
+    
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % carouselItems.length;
+        updateCarousel();
+    }
+    
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + carouselItems.length) % carouselItems.length;
+        updateCarousel();
+    }
+    
+    function goToSlide(index) {
+        currentSlide = index;
+        updateCarousel();
+    }
+    
+    // Event listeners for carousel
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Auto-rotate carousel
+    let autoRotateInterval = setInterval(nextSlide, 5000);
+    
+    // Pause auto-rotate on hover
+    if (carousel) {
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoRotateInterval);
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+            autoRotateInterval = setInterval(nextSlide, 5000);
+        });
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+            clearInterval(autoRotateInterval);
+            autoRotateInterval = setInterval(nextSlide, 5000);
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+            clearInterval(autoRotateInterval);
+            autoRotateInterval = setInterval(nextSlide, 5000);
+        }
+    });
+    
+    // Initialize carousel
+    updateCarousel();
+    
+    // ===== 3D CARD FLIP EFFECT =====
+    const projectCards3D = document.querySelectorAll('.project-card-3d');
+    
+    projectCards3D.forEach(card => {
+        card.addEventListener('dblclick', function() {
+            this.classList.toggle('flipped');
+        });
+        
+        // Subtle hover effect for 3D cards
+        card.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('flipped')) {
+                this.style.transform = 'rotateY(10deg) rotateX(5deg) translateZ(20px)';
+            }
         });
         
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            if (!this.classList.contains('flipped')) {
+                this.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+            }
         });
     });
+    
+    // Touch/Swipe support for mobile
+    let startX = null;
+    let startY = null;
+    
+    if (carousel) {
+        carousel.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+        
+        carousel.addEventListener('touchend', function(e) {
+            if (!startX || !startY) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+            
+            // Horizontal swipe detection
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    nextSlide(); // Swipe left - next slide
+                } else {
+                    prevSlide(); // Swipe right - previous slide
+                }
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = setInterval(nextSlide, 5000);
+            }
+            
+            startX = null;
+            startY = null;
+        });
+    }
     
     // ===== TECH ORBIT INTERACTION =====
     const techItems = document.querySelectorAll('.tech-item');

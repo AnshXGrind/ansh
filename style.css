@@ -590,30 +590,116 @@ section {
     }
 }
 
-/* ===== PROJECTS SECTION ===== */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+/* ===== 3D PROJECTS CAROUSEL ===== */
+.projects-section {
+    overflow-x: hidden;
 }
 
-.project-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.carousel-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 0;
+    overflow: hidden;
+}
+
+.carousel-3d {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    perspective: 1000px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.carousel-item {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateZ(-300px) rotateY(0deg);
+    width: 350px;
+    height: 500px;
+    transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.carousel-item.active {
+    transform: translateX(-50%) translateZ(0px) rotateY(0deg);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.carousel-item.prev {
+    transform: translateX(-50%) translateZ(-200px) rotateY(45deg) translateX(-100px);
+    opacity: 0.7;
+}
+
+.carousel-item.next {
+    transform: translateX(-50%) translateZ(-200px) rotateY(-45deg) translateX(100px);
+    opacity: 0.7;
+}
+
+.carousel-item.far-prev {
+    transform: translateX(-50%) translateZ(-400px) rotateY(60deg) translateX(-200px);
+    opacity: 0.3;
+}
+
+.carousel-item.far-next {
+    transform: translateX(-50%) translateZ(-400px) rotateY(-60deg) translateX(200px);
+    opacity: 0.3;
+}
+
+/* 3D Project Cards */
+.project-card-3d {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+    cursor: pointer;
+}
+
+.project-card-3d:hover {
+    transform: rotateY(10deg) rotateX(5deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     border-radius: 20px;
     overflow: hidden;
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
 }
 
-.project-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(99, 102, 241, 0.5);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+.card-face.front {
+    transform: rotateY(0deg);
 }
 
-.project-card.featured {
+.card-face.back {
+    transform: rotateY(180deg);
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.project-card-3d.featured .card-face.front {
     border-color: rgba(99, 102, 241, 0.3);
     background: rgba(99, 102, 241, 0.05);
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.2);
+}
+
+/* Flip effect on click */
+.project-card-3d.flipped {
+    transform: rotateY(180deg);
 }
 
 .project-image {
@@ -634,6 +720,10 @@ section {
 .project-icon {
     font-size: 3rem;
     opacity: 0.7;
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .project-overlay {
@@ -650,7 +740,7 @@ section {
     transition: all 0.3s ease;
 }
 
-.project-card:hover .project-overlay {
+.project-card-3d:hover .project-overlay {
     opacity: 1;
 }
 
@@ -681,6 +771,8 @@ section {
 
 .project-content {
     padding: 1.5rem;
+    height: 300px;
+    overflow-y: hidden;
 }
 
 .project-header {
@@ -733,6 +825,208 @@ section {
     font-size: 0.8rem;
     font-weight: 500;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+/* Card Back Details */
+.project-details {
+    text-align: center;
+    color: white;
+}
+
+.project-details h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.project-details ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.project-details li {
+    padding: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+}
+
+.project-details li::before {
+    content: '✓';
+    color: #6366f1;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.project-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.25rem;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.carousel-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.carousel-btn:hover {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: rgba(99, 102, 241, 0.5);
+    transform: scale(1.1);
+}
+
+.carousel-indicators {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    transform: scale(1.3);
+}
+
+.indicator:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* Project Counter */
+.project-counter {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.current-project {
+    color: #6366f1;
+    font-weight: 700;
+}
+
+.divider {
+    margin: 0 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.total-projects {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive Design for Carousel */
+@media (max-width: 768px) {
+    .carousel-3d {
+        height: 450px;
+    }
+    
+    .carousel-item {
+        width: 300px;
+        height: 450px;
+    }
+    
+    .project-content {
+        height: 250px;
+        overflow-y: hidden;
+    }
+    
+    .carousel-controls {
+        gap: 1rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-3d {
+        height: 400px;
+    }
+    
+    .carousel-item {
+        width: 280px;
+        height: 400px;
+    }
+    
+    .project-content {
+        padding: 1rem;
+        height: 200px;
+        overflow-y: hidden;
+    }
+    
+    .project-counter {
+        top: 1rem;
+        right: 1rem;
+        font-size: 1rem;
+        padding: 0.25rem 0.75rem;
+    }
 }
 
 /* ===== SKILLS SECTION ===== */
@@ -1022,6 +1316,59 @@ section {
     100% { transform: translateX(100%); }
 }
 
+@keyframes carouselGlow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+    }
+}
+
+@keyframes cardFloat {
+    0%, 100% { 
+        transform: translateX(-50%) translateZ(0px) rotateY(0deg) translateY(0px); 
+    }
+    50% { 
+        transform: translateX(-50%) translateZ(0px) rotateY(0deg) translateY(-10px); 
+    }
+}
+
+.carousel-item.active .project-card-3d {
+    animation: cardFloat 4s ease-in-out infinite;
+}
+
+.project-card-3d.featured {
+    animation: carouselGlow 3s ease-in-out infinite;
+}
+
+/* Additional smooth transitions */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.carousel-3d, .carousel-item, .project-card-3d, .card-face {
+    will-change: transform;
+}
+
+/* Enhanced glass effect */
+.card-face {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.project-card-3d.featured .card-face.front {
+    box-shadow: 
+        0 0 40px rgba(99, 102, 241, 0.4),
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
     .container {
@@ -1082,8 +1429,8 @@ section {
         gap: 2rem;
     }
     
-    .projects-grid {
-        grid-template-columns: 1fr;
+    .carousel-container {
+        padding: 2rem 0;
     }
     
     .skills-categories {
