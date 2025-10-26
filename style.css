@@ -1150,16 +1150,14 @@ section {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Hide mobile hint on desktop */
-.mobile-swipe-hint {
-    display: none;
-}
+
 
 /* Prevent horizontal scrollbars on mobile */
 @media (max-width: 768px) {
     html, body {
         overflow-x: hidden !important;
         max-width: 100vw !important;
+        position: relative !important;
     }
     
     * {
@@ -1172,6 +1170,21 @@ section {
         padding-right: 1rem !important;
         max-width: 100vw !important;
         overflow-x: hidden !important;
+    }
+    
+    /* Force no scrollbars on project section */
+    .projects-section,
+    .projects-section * {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+    }
+    
+    /* Ensure carousel doesn't cause scrollbars */
+    .carousel-container,
+    .carousel-3d,
+    .carousel-item {
+        overflow: hidden !important;
+        contain: layout !important;
     }
     
     /* Mobile Achievements Dropdown */
@@ -1244,17 +1257,21 @@ section {
     }
     
     .carousel-item.prev {
-        transform: translateX(-50%) translateX(-75px) scale(0.85);
+        transform: translateX(-50%) translateX(-60px) scale(0.85);
         opacity: 0.6;
         z-index: 2;
-        max-width: calc(100vw - 40px);
+        max-width: calc(100vw - 60px);
+        left: 50%;
+        right: auto;
     }
     
     .carousel-item.next {
-        transform: translateX(-50%) translateX(75px) scale(0.85);
+        transform: translateX(-50%) translateX(60px) scale(0.85);
         opacity: 0.6;
         z-index: 2;
-        max-width: calc(100vw - 40px);
+        max-width: calc(100vw - 60px);
+        left: 50%;
+        right: auto;
     }
     
     /* Handle third project visibility */
@@ -1309,41 +1326,7 @@ section {
         margin-top: 1.5rem;
     }
     
-    /* Mobile Swipe Hint */
-    .mobile-swipe-hint {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        margin-top: 1rem;
-        padding: 0.8rem 1.2rem;
-        background: rgba(99, 102, 241, 0.1);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        border-radius: 25px;
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.8);
-        animation: swipeHintPulse 2s ease-in-out infinite;
-    }
-    
-    .swipe-icon {
-        font-size: 1.1rem;
-        animation: swipeIconMove 1.5s ease-in-out infinite;
-    }
-    
-    .swipe-text {
-        font-weight: 500;
-        letter-spacing: 0.5px;
-    }
-    
-    @keyframes swipeHintPulse {
-        0%, 100% { opacity: 0.7; transform: scale(1); }
-        50% { opacity: 1; transform: scale(1.02); }
-    }
-    
-    @keyframes swipeIconMove {
-        0%, 100% { transform: translateX(0); }
-        50% { transform: translateX(3px); }
-    }
+
     
     /* Enhanced project counter for mobile */
     .project-counter {
@@ -1422,17 +1405,21 @@ section {
     }
     
     .carousel-item.prev {
-        transform: translateX(-50%) translateX(-60px) scale(0.8);
+        transform: translateX(-50%) translateX(-45px) scale(0.8);
         opacity: 0.5;
         z-index: 2;
-        max-width: calc(100vw - 20px);
+        max-width: calc(100vw - 40px);
+        left: 50%;
+        right: auto;
     }
     
     .carousel-item.next {
-        transform: translateX(-50%) translateX(60px) scale(0.8);
+        transform: translateX(-50%) translateX(45px) scale(0.8);
         opacity: 0.5;
         z-index: 2;
-        max-width: calc(100vw - 20px);
+        max-width: calc(100vw - 40px);
+        left: 50%;
+        right: auto;
     }
     
     /* Handle third project visibility on small screens */

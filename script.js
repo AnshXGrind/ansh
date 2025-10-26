@@ -411,14 +411,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     prevSlide(); // Swipe right - previous slide
                 }
                 
-                // Hide mobile hint after first interaction
-                const mobileHint = document.querySelector('.mobile-swipe-hint');
-                if (mobileHint) {
-                    mobileHint.style.opacity = '0';
-                    setTimeout(() => {
-                        mobileHint.style.display = 'none';
-                    }, 300);
-                }
+
             }
             
             // Restart auto-rotation
