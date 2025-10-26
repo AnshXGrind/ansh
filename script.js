@@ -241,31 +241,40 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isAnimating) return;
         isAnimating = true;
         
-        carouselItems.forEach((item, index) => {
-            // Remove all position classes
-            item.classList.remove('active', 'prev', 'next');
+        // Use requestAnimationFrame for smoother animations
+        requestAnimationFrame(() => {
+            carouselItems.forEach((item, index) => {
+                // Remove all position classes efficiently
+                item.className = item.className.replace(/\b(active|prev|next)\b/g, '').trim() + ' carousel-item';
+                
+                if (index === currentSlide) {
+                    item.classList.add('active');
+                } else if (index === (currentSlide - 1 + carouselItems.length) % carouselItems.length) {
+                    item.classList.add('prev');
+                } else if (index === (currentSlide + 1) % carouselItems.length) {
+                    item.classList.add('next');
+                }
+            });
             
-            if (index === currentSlide) {
-                item.classList.add('active');
-            } else if (index === (currentSlide - 1 + carouselItems.length) % carouselItems.length) {
-                item.classList.add('prev');
-            } else if (index === (currentSlide + 1) % carouselItems.length) {
-                item.classList.add('next');
+            // Update indicators efficiently
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+            
+            // Update counter
+            if (currentProjectSpan) {
+                currentProjectSpan.textContent = String(currentSlide + 1).padStart(2, '0');
             }
         });
         
-        // Update indicators
-        indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentSlide);
-        });
-        
-        // Update counter
-        currentProjectSpan.textContent = String(currentSlide + 1).padStart(2, '0');
-        
-        // Faster animation completion for mobile
+        // Shorter timeout for better responsiveness
         setTimeout(() => {
             isAnimating = false;
-        }, 600);
+        }, 300);
     }
     
     function nextSlide() {
@@ -296,18 +305,37 @@ document.addEventListener('DOMContentLoaded', function() {
         indicator.addEventListener('click', () => goToSlide(index));
     });
     
-    // Auto-rotate carousel (longer interval for better mobile experience)
-    let autoRotateInterval = setInterval(nextSlide, 7000);
+    // Auto-rotate carousel with performance optimization
+    let autoRotateInterval;
+    
+    function startAutoRotation() {
+        if (autoRotateInterval) clearInterval(autoRotateInterval);
+        autoRotateInterval = setInterval(nextSlide, 8000);
+    }
+    
+    // Only enable auto-rotation if page is visible (performance optimization)
+    if (typeof document.visibilityState !== 'undefined') {
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                startAutoRotation();
+            } else {
+                clearInterval(autoRotateInterval);
+            }
+        });
+    }
+    
+    // Start auto-rotation
+    startAutoRotation();
     
     // Pause auto-rotate on hover (desktop only)
     if (carousel && window.innerWidth > 768) {
         carousel.addEventListener('mouseenter', () => {
             clearInterval(autoRotateInterval);
-        });
+        }, { passive: true });
         
         carousel.addEventListener('mouseleave', () => {
-            autoRotateInterval = setInterval(nextSlide, 7000);
-        });
+            startAutoRotation();
+        }, { passive: true });
     }
     
     // Keyboard navigation
@@ -326,27 +354,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize carousel
     updateCarousel();
     
-    // ===== 3D CARD FLIP EFFECT =====
+    // ===== SIMPLIFIED CARD INTERACTIONS (Desktop Only) =====
     const projectCards3D = document.querySelectorAll('.project-card-3d');
     
-    projectCards3D.forEach(card => {
-        card.addEventListener('dblclick', function() {
-            this.classList.toggle('flipped');
+    // Only add hover effects on desktop for better mobile performance
+    if (window.innerWidth > 768) {
+        projectCards3D.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            }, { passive: true });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0px)';
+            }, { passive: true });
         });
-        
-        // Subtle hover effect for 3D cards
-        card.addEventListener('mouseenter', function() {
-            if (!this.classList.contains('flipped')) {
-                this.style.transform = 'rotateY(10deg) rotateX(5deg) translateZ(20px)';
-            }
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            if (!this.classList.contains('flipped')) {
-                this.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
-            }
-        });
-    });
+    }
     
     // Enhanced Touch/Swipe support for mobile
     let startX = null;
