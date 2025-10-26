@@ -595,11 +595,11 @@ section {
     overflow-x: hidden;
     position: relative;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
 }
 
+/* Simplified background for better mobile performance */
 .projects-section::before {
     content: '';
     position: absolute;
@@ -608,10 +608,9 @@ section {
     right: 0;
     bottom: 0;
     background: 
-        linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.03) 31%, rgba(99, 102, 241, 0.03) 32%, transparent 33%),
-        linear-gradient(-45deg, transparent 30%, rgba(139, 92, 246, 0.03) 31%, rgba(139, 92, 246, 0.03) 32%, transparent 33%);
-    background-size: 60px 60px;
-    animation: backgroundShift 20s linear infinite;
+        linear-gradient(45deg, transparent 70%, rgba(99, 102, 241, 0.02) 71%, rgba(99, 102, 241, 0.02) 72%, transparent 73%);
+    background-size: 100px 100px;
+    animation: backgroundShift 30s linear infinite;
     pointer-events: none;
 }
 
@@ -626,67 +625,45 @@ section {
 .carousel-3d {
     position: relative;
     width: 100%;
-    height: 600px;
-    perspective: 1200px;
+    height: 550px;
+    perspective: 1000px;
     overflow: hidden;
     transform-style: preserve-3d;
-    background: 
-        radial-gradient(ellipse at center, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
-    border-radius: 30px;
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 20px 60px rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .carousel-item {
     position: absolute;
-    top: 50px;
+    top: 25px;
     left: 50%;
-    transform: translateX(-50%) translateZ(-400px) rotateY(0deg);
-    width: 380px;
-    height: 520px;
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    opacity: 0.4;
+    transform: translateX(-50%) translateZ(-200px) rotateY(0deg);
+    width: 340px;
+    height: 480px;
+    transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    opacity: 0.3;
     pointer-events: none;
-    filter: blur(2px) brightness(0.6);
+    transform-origin: center center;
 }
 
 .carousel-item.active {
-    transform: translateX(-50%) translateZ(50px) rotateY(0deg) scale(1.05);
+    transform: translateX(-50%) translateZ(0px) rotateY(0deg) scale(1);
     opacity: 1;
     pointer-events: auto;
-    filter: blur(0px) brightness(1);
     z-index: 10;
 }
 
 .carousel-item.prev {
-    transform: translateX(-50%) translateZ(-250px) rotateY(35deg) translateX(-120px) scale(0.85);
-    opacity: 0.6;
-    filter: blur(1px) brightness(0.8);
+    transform: translateX(-50%) translateZ(-150px) rotateY(25deg) translateX(-80px) scale(0.9);
+    opacity: 0.5;
     z-index: 5;
 }
 
 .carousel-item.next {
-    transform: translateX(-50%) translateZ(-250px) rotateY(-35deg) translateX(120px) scale(0.85);
-    opacity: 0.6;
-    filter: blur(1px) brightness(0.8);
+    transform: translateX(-50%) translateZ(-150px) rotateY(-25deg) translateX(80px) scale(0.9);
+    opacity: 0.5;
     z-index: 5;
-}
-
-.carousel-item.far-prev {
-    transform: translateX(-50%) translateZ(-450px) rotateY(55deg) translateX(-250px) scale(0.7);
-    opacity: 0.2;
-    filter: blur(3px) brightness(0.4);
-    z-index: 1;
-}
-
-.carousel-item.far-next {
-    transform: translateX(-50%) translateZ(-450px) rotateY(-55deg) translateX(250px) scale(0.7);
-    opacity: 0.2;
-    filter: blur(3px) brightness(0.4);
-    z-index: 1;
 }
 
 /* 3D Project Cards */
@@ -713,17 +690,13 @@ section {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 25px;
+    border-radius: 20px;
     overflow: hidden;
-    background: 
-        linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    -webkit-backdrop-filter: blur(25px);
-    backdrop-filter: blur(25px);
-    box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .card-face.front {
@@ -741,41 +714,11 @@ section {
 }
 
 .project-card-3d.featured .card-face.front {
-    border-color: rgba(99, 102, 241, 0.5);
-    background: 
-        linear-gradient(145deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
+    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.1);
     box-shadow: 
-        0 0 60px rgba(99, 102, 241, 0.4),
-        0 25px 50px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(99, 102, 241, 0.2);
-    position: relative;
-}
-
-.project-card-3d.featured .card-face.front::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
-    border-radius: 25px;
-    z-index: -1;
-    animation: borderGlow 3s linear infinite;
-}
-
-.project-card-3d.featured .card-face.front::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        linear-gradient(145deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
-    border-radius: 23px;
-    z-index: -1;
+        0 0 30px rgba(99, 102, 241, 0.2),
+        0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 /* Flip effect on click */
@@ -1155,54 +1098,138 @@ section {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Responsive Design for Carousel */
+/* Mobile Optimized Carousel */
 @media (max-width: 768px) {
+    .carousel-container {
+        padding: 3rem 0;
+    }
+    
     .carousel-3d {
-        height: 450px;
+        height: 420px;
+        perspective: 800px;
+        margin: 0 auto;
     }
     
     .carousel-item {
         width: 300px;
-        height: 450px;
+        height: 380px;
+        top: 20px;
+        transition: all 0.5s ease-out;
+    }
+    
+    .carousel-item.active {
+        transform: translateX(-50%) translateZ(0px) scale(1);
+        opacity: 1;
+    }
+    
+    .carousel-item.prev {
+        transform: translateX(-50%) translateZ(-100px) rotateY(15deg) translateX(-60px) scale(0.85);
+        opacity: 0.4;
+    }
+    
+    .carousel-item.next {
+        transform: translateX(-50%) translateZ(-100px) rotateY(-15deg) translateX(60px) scale(0.85);
+        opacity: 0.4;
     }
     
     .project-content {
-        height: 250px;
+        height: 200px;
+        padding: 1.25rem;
         overflow-y: hidden;
     }
     
+    .project-title {
+        font-size: 1.1rem;
+    }
+    
+    .project-description {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
     .carousel-controls {
-        gap: 1rem;
+        gap: 1.5rem;
+        margin-top: 2rem;
     }
     
     .carousel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .indicator {
+        width: 12px;
+        height: 12px;
     }
 }
 
 @media (max-width: 480px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .carousel-container {
+        padding: 2rem 0;
+    }
+    
     .carousel-3d {
-        height: 400px;
+        height: 380px;
+        perspective: 700px;
     }
     
     .carousel-item {
         width: 280px;
-        height: 400px;
+        height: 350px;
+        top: 15px;
+    }
+    
+    .carousel-item.prev,
+    .carousel-item.next {
+        transform: translateX(-50%) translateZ(-80px) rotateY(0deg) translateX(0px) scale(0.8);
+        opacity: 0.3;
     }
     
     .project-content {
         padding: 1rem;
-        height: 200px;
-        overflow-y: hidden;
+        height: 180px;
+    }
+    
+    .project-title {
+        font-size: 1rem;
+    }
+    
+    .project-description {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+    
+    .tech-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
     }
     
     .project-counter {
         top: 1rem;
         right: 1rem;
-        font-size: 1rem;
-        padding: 0.25rem 0.75rem;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .carousel-controls {
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
     }
 }
 
@@ -1493,33 +1520,10 @@ section {
     100% { transform: translateX(100%); }
 }
 
-@keyframes carouselGlow {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-    }
-    50% {
-        box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
-    }
-}
-
-@keyframes cardFloat {
-    0%, 100% { 
-        transform: translateX(-50%) translateZ(50px) rotateY(0deg) translateY(0px) scale(1.05); 
-    }
-    50% { 
-        transform: translateX(-50%) translateZ(50px) rotateY(0deg) translateY(-15px) scale(1.05); 
-    }
-}
-
+/* Simplified animations for better mobile performance */
 @keyframes backgroundShift {
     0% { transform: translateX(0) translateY(0); }
-    100% { transform: translateX(60px) translateY(60px); }
-}
-
-@keyframes borderGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    100% { transform: translateX(100px) translateY(100px); }
 }
 
 @keyframes shimmerEffect {
@@ -1529,21 +1533,21 @@ section {
 
 @keyframes indicatorGlow {
     0%, 100% { 
-        opacity: 0.3; 
+        opacity: 0.4; 
         transform: scale(1); 
     }
     50% { 
-        opacity: 0.6; 
+        opacity: 0.8; 
         transform: scale(1.1); 
     }
 }
 
-.carousel-item.active .project-card-3d {
-    animation: cardFloat 6s ease-in-out infinite;
-}
-
-.project-card-3d.featured {
-    animation: carouselGlow 4s ease-in-out infinite;
+/* Subtle hover animation only for non-mobile devices */
+@media (min-width: 769px) {
+    .carousel-item.active .project-card-3d:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+    }
 }
 
 /* Additional smooth transitions */

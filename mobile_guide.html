@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 Mobile Live Preview Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        h1 { text-align: center; margin-bottom: 30px; font-size: 2.5rem; }
+        .url-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .url {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD700;
+            word-break: break-all;
+        }
+        .steps {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+        .step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .qr-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+        .tips {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .tip-title {
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .url-intro {
+            margin-bottom: 10px;
+        }
+        .steps-title {
+            margin-bottom: 20px;
+        }
+        .qr-intro {
+            margin: 15px 0;
+        }
+        .qr-code {
+            background: rgba(0,0,0,0.3); 
+            padding: 5px 10px; 
+            border-radius: 5px;
+        }
+        .tips-list {
+            margin-left: 20px; 
+            line-height: 1.8;
+        }
+        .footer-section {
+            text-align: center; 
+            margin-top: 30px; 
+            opacity: 0.8;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            h1 { font-size: 2rem; }
+            .url { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Mobile Live Preview</h1>
+        
+        <div class="url-box">
+            <div class="url-intro">🌐 Access your website on mobile:</div>
+            <div class="url" id="mobileUrl">http://[YOUR-IP]:8080</div>
+        </div>
+        
+        <div class="steps">
+            <h3 class="steps-title">📋 Setup Instructions:</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>Make sure your phone and computer are connected to the <strong>same WiFi network</strong></div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>Open your phone's web browser (Chrome, Safari, etc.)</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>Type the URL above in your phone's address bar</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div>Bookmark the page for quick access!</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">5</div>
+                <div>When you make changes, just pull down to refresh the page</div>
+            </div>
+        </div>
+        
+        <div class="qr-section">
+            <h3>📱 Quick Access via QR Code</h3>
+            <p class="qr-intro">
+                You can generate a QR code for instant access:<br>
+                Run <code class="qr-code">python generate_qr.py</code>
+            </p>
+        </div>
+        
+        <div class="tips">
+            <div class="tip-title">💡 Pro Tips:</div>
+            <ul class="tips-list">
+                <li><strong>Add to Home Screen:</strong> In mobile browser, tap "Add to Home Screen" for app-like access</li>
+                <li><strong>Developer Tools:</strong> Use Chrome mobile dev tools for debugging</li>
+                <li><strong>Network Issues:</strong> If it doesn't work, check your firewall settings</li>
+                <li><strong>Different Port:</strong> If port 8080 is busy, edit the Python script to use 8081, 8082, etc.</li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <p>🚀 Happy mobile testing! 📱</p>
+        </div>
+    </div>
+    
+    <script>
+        // Update URL with actual IP
+        const mobileUrlElement = document.getElementById('mobileUrl');
+        
+        // Try to get the current URL and extract IP
+        const currentUrl = window.location.href;
+        const urlParts = currentUrl.split('/');
+        if (urlParts.length >= 3) {
+            const hostPart = urlParts[2];
+            if (hostPart.includes(':')) {
+                const ip = hostPart.split(':')[0];
+                mobileUrlElement.textContent = `http://${ip}:8080`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -242,7 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
         isAnimating = true;
         
         carouselItems.forEach((item, index) => {
-            item.classList.remove('active', 'prev', 'next', 'far-prev', 'far-next');
+            // Remove all position classes
+            item.classList.remove('active', 'prev', 'next');
             
             if (index === currentSlide) {
                 item.classList.add('active');
@@ -250,10 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.classList.add('prev');
             } else if (index === (currentSlide + 1) % carouselItems.length) {
                 item.classList.add('next');
-            } else if (index === (currentSlide - 2 + carouselItems.length) % carouselItems.length) {
-                item.classList.add('far-prev');
-            } else if (index === (currentSlide + 2) % carouselItems.length) {
-                item.classList.add('far-next');
             }
         });
         
@@ -265,9 +262,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update counter
         currentProjectSpan.textContent = String(currentSlide + 1).padStart(2, '0');
         
+        // Faster animation completion for mobile
         setTimeout(() => {
             isAnimating = false;
-        }, 800);
+        }, 600);
     }
     
     function nextSlide() {
@@ -298,17 +296,17 @@ document.addEventListener('DOMContentLoaded', function() {
         indicator.addEventListener('click', () => goToSlide(index));
     });
     
-    // Auto-rotate carousel
-    let autoRotateInterval = setInterval(nextSlide, 5000);
+    // Auto-rotate carousel (longer interval for better mobile experience)
+    let autoRotateInterval = setInterval(nextSlide, 7000);
     
-    // Pause auto-rotate on hover
-    if (carousel) {
+    // Pause auto-rotate on hover (desktop only)
+    if (carousel && window.innerWidth > 768) {
         carousel.addEventListener('mouseenter', () => {
             clearInterval(autoRotateInterval);
         });
         
         carousel.addEventListener('mouseleave', () => {
-            autoRotateInterval = setInterval(nextSlide, 5000);
+            autoRotateInterval = setInterval(nextSlide, 7000);
         });
     }
     
@@ -350,39 +348,57 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Touch/Swipe support for mobile
+    // Enhanced Touch/Swipe support for mobile
     let startX = null;
     let startY = null;
+    let startTime = null;
     
     if (carousel) {
         carousel.addEventListener('touchstart', function(e) {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
-        });
+            startTime = Date.now();
+            
+            // Prevent auto-rotation during touch interaction
+            clearInterval(autoRotateInterval);
+        }, { passive: true });
         
         carousel.addEventListener('touchend', function(e) {
-            if (!startX || !startY) return;
+            if (!startX || !startY || !startTime) return;
             
             const endX = e.changedTouches[0].clientX;
             const endY = e.changedTouches[0].clientY;
+            const endTime = Date.now();
             
             const diffX = startX - endX;
             const diffY = startY - endY;
+            const timeDiff = endTime - startTime;
             
-            // Horizontal swipe detection
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            // Only trigger if it's a quick swipe (less than 500ms) and sufficient distance
+            if (timeDiff < 500 && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
                 if (diffX > 0) {
                     nextSlide(); // Swipe left - next slide
                 } else {
                     prevSlide(); // Swipe right - previous slide
                 }
-                clearInterval(autoRotateInterval);
-                autoRotateInterval = setInterval(nextSlide, 5000);
             }
+            
+            // Restart auto-rotation
+            setTimeout(() => {
+                autoRotateInterval = setInterval(nextSlide, 7000);
+            }, 1000);
             
             startX = null;
             startY = null;
-        });
+            startTime = null;
+        }, { passive: true });
+        
+        // Prevent scroll during horizontal swipes
+        carousel.addEventListener('touchmove', function(e) {
+            if (startX && Math.abs(startX - e.touches[0].clientX) > 10) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     }
     
     // ===== TECH ORBIT INTERACTION =====
