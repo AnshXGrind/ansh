@@ -354,6 +354,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize carousel
     updateCarousel();
     
+    // Debug: Log carousel items count
+    console.log(`📊 Carousel initialized with ${carouselItems.length} projects`);
+    console.log('🎯 Projects:', Array.from(carouselItems).map((item, i) => ({
+        index: i,
+        title: item.querySelector('.project-title')?.textContent || 'Unknown'
+    })));
+    
     // ===== SIMPLIFIED CARD INTERACTIONS (Desktop Only) =====
     const projectCards3D = document.querySelectorAll('.project-card-3d');
     
@@ -396,12 +403,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const diffY = startY - endY;
             const timeDiff = endTime - startTime;
             
-            // Only trigger if it's a quick swipe (less than 500ms) and sufficient distance
-            if (timeDiff < 500 && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+            // More sensitive swipe detection for better mobile UX
+            if (timeDiff < 600 && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 20) {
                 if (diffX > 0) {
                     nextSlide(); // Swipe left - next slide
                 } else {
                     prevSlide(); // Swipe right - previous slide
+                }
+                
+                // Hide mobile hint after first interaction
+                const mobileHint = document.querySelector('.mobile-swipe-hint');
+                if (mobileHint) {
+                    mobileHint.style.opacity = '0';
+                    setTimeout(() => {
+                        mobileHint.style.display = 'none';
+                    }, 300);
                 }
             }
             
