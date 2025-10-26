@@ -549,6 +549,27 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(warmUpElement);
     }, 100);
     
+    // ===== ACHIEVEMENTS DROPDOWN =====
+    const achievementsDropdown = document.querySelector('.achievements-dropdown');
+    const achievementsTrigger = document.querySelector('.achievements-trigger');
+    
+    if (achievementsTrigger) {
+        // Toggle dropdown on click for mobile
+        achievementsTrigger.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                achievementsDropdown.classList.toggle('active');
+            }
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!achievementsDropdown.contains(e.target)) {
+                achievementsDropdown.classList.remove('active');
+            }
+        });
+    }
+    
     console.log('🚀 Futuristic portfolio loaded successfully!');
 });
 
