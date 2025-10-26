@@ -30,7 +30,7 @@ The **404 File not found** error has been **completely fixed**!
 - ✅ **Interactive Elements** - Hover effects, smooth transitions
 - ✅ **Contact Integration** - Working contact form with Formspree
 - ✅ **Project Links** - Direct link to your Brain Hub project
-- ✅ **Social Links** - GitHub and LinkedIn integration
+- ✅ **Social Links** - LinkedIn integration
 
 ## 🌐 Live Status
 
@@ -55,7 +55,7 @@ Your website is now **100% functional** and **live** at:
 
 - **Live Website:** https://anshxgrind.github.io/ansh/
 - **Brain Hub Project:** https://anshxgrind.github.io/saksham-brain-hub/
-- **GitHub Profile:** https://github.com/AnshXGrind
+- **LinkedIn Profile:** https://www.linkedin.com/in/sakshamgrg
 
 ## 🚀 Ready to Deploy!
 
