@@ -1055,6 +1055,333 @@ section {
     }
 }
 
+/* ===== MED AID THUMBNAIL ===== */
+.medaid-thumbnail {
+    background: linear-gradient(135deg, #ffffff, #f0f9ff, #dbeafe);
+    overflow: hidden;
+    position: relative;
+}
+
+.medical-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* Doctor Character */
+.doctor {
+    position: relative;
+    z-index: 3;
+}
+
+.doctor-person {
+    position: relative;
+}
+
+.doctor-person .head {
+    width: 28px;
+    height: 28px;
+    position: relative;
+    margin: 0 auto 8px;
+}
+
+.doctor-person .face {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #f4c2a1, #e6a87c);
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.doctor-person .face::after {
+    content: '👁️';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+}
+
+.doctor-person .hair {
+    position: absolute;
+    top: -5px;
+    left: 3px;
+    width: 22px;
+    height: 15px;
+    background: linear-gradient(135deg, #4a5568, #2d3748);
+    border-radius: 50% 50% 0 0;
+}
+
+/* Doctor Coat */
+.doctor-person .body {
+    position: relative;
+    margin: 0 auto;
+}
+
+.coat {
+    width: 35px;
+    height: 45px;
+    background: linear-gradient(135deg, #ffffff, #f7fafc);
+    border-radius: 8px 8px 15px 15px;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.coat::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: #3b82f6;
+    border-radius: 1px;
+}
+
+.coat::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 2px;
+    background: #3b82f6;
+    border-radius: 1px;
+}
+
+/* Stethoscope */
+.stethoscope {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cord {
+    width: 2px;
+    height: 25px;
+    background: #374151;
+    border-radius: 1px;
+    margin: 0 auto;
+}
+
+.chest-piece {
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, #6b7280, #374151);
+    border-radius: 50%;
+    margin: -2px auto 0;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Doctor Arms */
+.doctor-person .arms {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+}
+
+.arm {
+    position: absolute;
+    width: 20px;
+    height: 6px;
+    background: #f4c2a1;
+    border-radius: 3px;
+}
+
+.left-arm {
+    left: -8px;
+    transform: rotate(-20deg);
+}
+
+.right-arm {
+    right: -8px;
+    transform: rotate(20deg);
+}
+
+/* Hands and Tools */
+.hand {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: #f4c2a1;
+    border-radius: 50%;
+}
+
+/* Clipboard */
+.clipboard {
+    position: absolute;
+    top: -15px;
+    left: -8px;
+    width: 16px;
+    height: 20px;
+}
+
+.clip {
+    width: 16px;
+    height: 4px;
+    background: linear-gradient(135deg, #6b7280, #374151);
+    border-radius: 2px 2px 0 0;
+}
+
+.paper {
+    width: 14px;
+    height: 16px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0 0 2px 2px;
+    padding: 2px;
+}
+
+.text-line {
+    width: 100%;
+    height: 1px;
+    background: #9ca3af;
+    margin: 2px 0;
+    border-radius: 0.5px;
+}
+
+/* Pen */
+.pen {
+    position: absolute;
+    top: -10px;
+    left: -2px;
+    width: 2px;
+    height: 12px;
+    background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+    border-radius: 1px;
+    transform: rotate(15deg);
+}
+
+.pen::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -1px;
+    width: 4px;
+    height: 4px;
+    background: #1f2937;
+    border-radius: 50%;
+}
+
+/* Medical Tools */
+.medical-tools {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.tool {
+    position: absolute;
+    font-size: 1.2rem;
+    animation: toolFloat 3s ease-in-out infinite;
+}
+
+.syringe {
+    top: 15%;
+    right: 15%;
+    animation-delay: 0s;
+}
+
+.pills {
+    top: 65%;
+    right: 20%;
+    animation-delay: 1s;
+}
+
+.thermometer {
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 2s;
+}
+
+.medical-cross {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 20px;
+    height: 20px;
+    background: #ef4444;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    animation: crossPulse 2s ease-in-out infinite;
+}
+
+/* Pulse Line */
+.pulse-line {
+    position: absolute;
+    bottom: 10px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: #10b981;
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.heartbeat {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, #10b981, transparent);
+    animation: heartbeatMove 2s linear infinite;
+}
+
+/* Medical Animations */
+@keyframes toolFloat {
+    0%, 100% { 
+        opacity: 0.6; 
+        transform: translateY(0px) scale(0.9); 
+    }
+    50% { 
+        opacity: 1; 
+        transform: translateY(-3px) scale(1); 
+    }
+}
+
+@keyframes crossPulse {
+    0%, 100% { 
+        opacity: 0.8; 
+        transform: scale(1); 
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.1); 
+    }
+}
+
+@keyframes heartbeatMove {
+    0% { 
+        left: -20px; 
+    }
+    100% { 
+        left: 100%; 
+    }
+}
+
 .project-overlay {
     position: absolute;
     top: 0;
