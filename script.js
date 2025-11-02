@@ -2,6 +2,25 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     
+    // ===== THEME TOGGLE =====
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    // Check for saved theme preference or default to dark mode
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    if (currentTheme === 'light') {
+        body.classList.add('light-mode');
+    }
+    
+    // Theme toggle handler
+    themeToggle.addEventListener('click', function() {
+        body.classList.toggle('light-mode');
+        
+        // Save theme preference
+        const theme = body.classList.contains('light-mode') ? 'light' : 'dark';
+        localStorage.setItem('theme', theme);
+    });
+    
     // ===== SMOOTH SCROLLING FOR NAVIGATION =====
     const navLinks = document.querySelectorAll('.nav-link');
     
