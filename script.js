@@ -593,8 +593,191 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Initialize 3D Carousel
+    init3DCarousel();
+    
     console.log('🚀 Futuristic portfolio loaded successfully!');
 });
+
+// ===== 3D CAROUSEL =====
+function init3DCarousel() {
+    console.log('🎠 Initializing 3D Carousel...');
+    
+    const projects = [
+        {
+            title: 'Brain Hub',
+            description: 'AI-powered brain training platform with interactive learning modules and progress tracking.',
+            icon: '🧠',
+            gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            tags: ['JavaScript', 'AI/ML', 'WebGL'],
+            link: 'https://saksham-brain-hub.vercel.app/',
+            badge: '⭐ Featured'
+        },
+        {
+            title: 'Lexiscan',
+            description: 'Award-winning document scanning tool with powerful OCR capabilities and intelligent processing.',
+            icon: '📄',
+            gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            tags: ['React', 'OCR', 'AI Processing'],
+            link: 'https://lexiscandone.vercel.app/',
+            badge: '🏆 Hackathon Winner'
+        },
+        {
+            title: 'Palm Reader',
+            description: 'Interactive palm reading application using computer vision and AI for mystical insights.',
+            icon: '✋',
+            gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            tags: ['Python', 'OpenCV', 'ML'],
+            link: 'https://palmreader.vercel.app/',
+            badge: '🆕 New'
+        },
+        {
+            title: 'Med Aid AI',
+            description: 'AI-powered medical diagnosis and health assistance platform with intelligent recommendations.',
+            icon: '⚕️',
+            gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            tags: ['TensorFlow', 'NLP', 'Healthcare'],
+            link: 'https://medaiid.vercel.app/',
+            badge: '💊 Healthcare'
+        },
+        {
+            title: 'Law Mind',
+            description: 'Intelligent legal assistant platform providing case analysis, legal research, and document automation.',
+            icon: '⚖️',
+            gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            tags: ['AI/ML', 'Legal Tech', 'NLP'],
+            link: 'https://law-mind.vercel.app/',
+            badge: '⚖️ Legal AI'
+        }
+    ];
+
+    const carousel = document.getElementById('carousel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const indicators = document.getElementById('indicators');
+    
+    console.log('🔍 Carousel elements:', { carousel, prevBtn, nextBtn, indicators });
+    
+    if (!carousel || !prevBtn || !nextBtn || !indicators) {
+        console.error('❌ Missing carousel elements!');
+        return;
+    }
+    
+    console.log('✅ All carousel elements found, creating cards...');
+
+    let currentIndex = 0;
+    let isAnimating = false;
+
+    // Create project cards
+    projects.forEach((project, index) => {
+        const card = document.createElement('div');
+        card.className = 'carousel-card';
+        card.innerHTML = `
+            <div class="card-background-gradient">
+                <div class="card-content">
+                    <div class="card-badge">${project.badge}</div>
+                    <div class="card-icon" style="background: ${project.gradient}">
+                        <span>${project.icon}</span>
+                    </div>
+                    <h3 class="card-title">${project.title}</h3>
+                    <p class="card-description">${project.description}</p>
+                    <div class="card-tags">
+                        ${project.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                    </div>
+                    <a href="${project.link}" target="_blank" rel="noopener noreferrer" class="card-link">
+                        View Project
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 10L10 6M10 6H6M10 6V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        `;
+        carousel.appendChild(card);
+
+        // Create indicator
+        const indicator = document.createElement('button');
+        indicator.className = 'carousel-indicator';
+        indicator.setAttribute('aria-label', `Go to project ${index + 1}`);
+        indicator.addEventListener('click', () => goToSlide(index));
+        indicators.appendChild(indicator);
+    });
+    
+    console.log(`✅ Created ${projects.length} project cards`);
+
+    const cards = carousel.querySelectorAll('.carousel-card');
+    const indicatorDots = indicators.querySelectorAll('.carousel-indicator');
+    
+    console.log(`📊 Cards in DOM: ${cards.length}, Indicators: ${indicatorDots.length}`);
+
+    function updateCarousel() {
+        const angle = 360 / cards.length;
+        const radius = 450;
+
+        cards.forEach((card, index) => {
+            const cardAngle = (angle * index) - (angle * currentIndex);
+            const theta = (cardAngle * Math.PI) / 180;
+            
+            const x = radius * Math.sin(theta);
+            const z = radius * Math.cos(theta) - radius;
+            
+            const scale = 1 + (z / radius) * 0.3;
+            const opacity = z > -radius * 0.5 ? 1 : 0.3;
+            
+            card.style.transform = `
+                rotateY(${-cardAngle}deg) 
+                translateZ(${radius}px)
+            `;
+            card.style.opacity = opacity;
+            card.style.zIndex = Math.round(scale * 100);
+
+            if (index === currentIndex) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+
+        indicatorDots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    function goToSlide(index) {
+        if (isAnimating || index === currentIndex) return;
+        isAnimating = true;
+        currentIndex = index;
+        updateCarousel();
+        setTimeout(() => { isAnimating = false; }, 1000);
+    }
+
+    function nextSlide() {
+        goToSlide((currentIndex + 1) % cards.length);
+    }
+
+    function prevSlide() {
+        goToSlide((currentIndex - 1 + cards.length) % cards.length);
+    }
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    // Auto-rotate
+    let autoRotate = setInterval(nextSlide, 5000);
+
+    carousel.addEventListener('mouseenter', () => clearInterval(autoRotate));
+    carousel.addEventListener('mouseleave', () => {
+        autoRotate = setInterval(nextSlide, 5000);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === 'ArrowRight') nextSlide();
+    });
+
+    updateCarousel();
+}
 
 // ===== CSS FOR RIPPLE EFFECT =====
 const rippleStyles = `

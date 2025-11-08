@@ -67,12 +67,6 @@
                     <span class="badge-text">🚀 Available for Work</span>
                 </div>
                 
-                <!-- Funny Tailwind CSS Joke -->
-                <div class="joke-badge">
-                    <span class="joke-icon">☁️</span>
-                    <span class="joke-text">I love Talwinder Singh's music & Tailwind CSS equally - One styles my soul, the other styles my divs! 🎵✨</span>
-                </div>
-                
                 <h1 class="hero-title">
                     <span class="title-line">Hi, I'm</span>
                     <span class="title-name gradient-text">Saksham</span>
@@ -142,6 +136,13 @@
                     Passionate developer focused on creating innovative solutions
                 </p>
             </div>
+            
+            <!-- Funny Tailwind CSS Joke -->
+            <div class="joke-badge-about">
+                <span class="joke-icon">☁️</span>
+                <span class="joke-text">I love Talwinder Singh's music & Tailwind CSS equally - One styles my soul, the other styles my divs! 🎵✨</span>
+            </div>
+            
             <div class="about-content">
                 <div class="about-text">
                     <div class="text-card">
@@ -192,8 +193,30 @@
                 </p>
             </div>
             
-            <!-- Modern Grid Layout -->
-            <div class="projects-grid">
+            <!-- 3D Carousel -->
+            <div class="carousel-container">
+                <div class="carousel-3d" id="carousel">
+                    <!-- Projects will be dynamically added here -->
+                </div>
+                
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn" id="prevBtn" aria-label="Previous project" title="Previous project">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="carousel-btn next-btn" id="nextBtn" aria-label="Next project" title="Next project">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="carousel-indicators" id="indicators"></div>
+            </div>
+            
+            <!-- Old Grid Layout (Hidden) -->
+            <div class="projects-grid" style="display: none;">
                 
                 <!-- Project 1: Brain Hub -->
                 <div class="project-card modern-card" data-aos="fade-up">
@@ -341,20 +364,148 @@
             </div>
         </div>
     </section>
-                <div class="carousel-3d" id="projectCarousel">
-                    
-                    <!-- Project 1: Brain Hub -->
-                    <div class="carousel-item active">
-                        <div class="project-card-3d featured">
-                            <div class="card-face front">
-                                <div class="project-image">
-                                    <div class="image-placeholder brainhub-thumbnail">
-                                        <div class="website-mockup">
-                                            <div class="browser-bar">
-                                                <div class="browser-dots">
-                                                    <span></span><span></span><span></span>
-                                                </div>
-                                                <div class="browser-url">saksham-brain-hub.vercel.app</div>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Expertise</span>
+                <h2 class="section-title">Skills & Technologies</h2>
+                <p class="section-subtitle">
+                    Tools and technologies I use to bring ideas to life
+                </p>
+            </div>
+            
+            <div class="skills-grid">
+                <!-- Skill Card: Frontend Development -->
+                <div class="skill-card">
+                    <div class="skill-glow"></div>
+                    <div class="skill-content">
+                        <div class="skill-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="skill-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-title">Frontend Development</h3>
+                        <p class="skill-description">
+                            Crafting responsive and interactive user interfaces with modern frameworks and libraries.
+                        </p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Next.js</span>
+                            <span class="skill-tag">Tailwind</span>
+                        </div>
+                    </div>
+                    <div class="meteors-container">
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                    </div>
+                </div>
+
+                <!-- Skill Card: Backend Development -->
+                <div class="skill-card">
+                    <div class="skill-glow"></div>
+                    <div class="skill-content">
+                        <div class="skill-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="skill-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-title">Backend Development</h3>
+                        <p class="skill-description">
+                            Building scalable server-side applications with robust APIs and database management.
+                        </p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">MongoDB</span>
+                        </div>
+                    </div>
+                    <div class="meteors-container">
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                    </div>
+                </div>
+
+                <!-- Skill Card: AI/ML -->
+                <div class="skill-card">
+                    <div class="skill-glow"></div>
+                    <div class="skill-content">
+                        <div class="skill-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="skill-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-title">AI & Machine Learning</h3>
+                        <p class="skill-description">
+                            Developing intelligent systems with deep learning, NLP, and computer vision technologies.
+                        </p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">PyTorch</span>
+                            <span class="skill-tag">OpenCV</span>
+                        </div>
+                    </div>
+                    <div class="meteors-container">
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                    </div>
+                </div>
+
+                <!-- Skill Card: UI/UX Design -->
+                <div class="skill-card">
+                    <div class="skill-glow"></div>
+                    <div class="skill-content">
+                        <div class="skill-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="skill-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-title">UI/UX Design</h3>
+                        <p class="skill-description">
+                            Creating beautiful, user-centered designs with attention to detail and accessibility.
+                        </p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Adobe XD</span>
+                            <span class="skill-tag">Framer</span>
+                        </div>
+                    </div>
+                    <div class="meteors-container">
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                        <span class="meteor"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="achievements-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Achievements</span>
+                <h2 class="section-title">Awards & Recognition</h2>
+                <p class="section-subtitle">
+                    Milestones and accomplishments in my journey
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
                                             </div>
                                             <div class="website-content">
                                                 <div class="brain-animation">
