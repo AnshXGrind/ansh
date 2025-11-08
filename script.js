@@ -6,11 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');
     const body = document.body;
     
-    // Check for saved theme preference or default to dark mode
+    // Force dark mode on initial load for better visibility
     const currentTheme = localStorage.getItem('theme') || 'dark';
     if (currentTheme === 'light') {
         body.classList.add('light-mode');
+    } else {
+        body.classList.remove('light-mode');
     }
+    
+    console.log('Theme loaded:', currentTheme);
+    console.log('Body classes:', body.className);
     
     // Theme toggle handler
     themeToggle.addEventListener('click', function() {
@@ -22,76 +27,67 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // ===== SMOOTH SCROLLING FOR NAVIGATION =====
-    const navLinks = document.querySelectorAll('.nav-link');
+    const dockLinks = document.querySelectorAll('.dock-item[href^="#"]');
     
-    navLinks.forEach(link => {
+    dockLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
+            
+            // Skip empty hrefs
+            if (targetId === '#' || !targetId) return;
+            
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80;
+                const offsetTop = targetSection.offsetTop - 100;
                 
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
                 
-                // Update active nav link
-                updateActiveNavLink(this);
+                // Update active dock item
+                updateActiveDockItem(this);
             }
         });
     });
     
-    // ===== UPDATE ACTIVE NAV LINK ON SCROLL =====
-    function updateActiveNavLink(activeLink = null) {
-        navLinks.forEach(link => link.classList.remove('active'));
+    // ===== UPDATE ACTIVE DOCK ITEM ON SCROLL =====
+    function updateActiveDockItem(activeLink = null) {
+        const dockItems = document.querySelectorAll('.dock-item[href^="#"]:not([href="#"])');
+        dockItems.forEach(link => link.classList.remove('active'));
         
         if (activeLink) {
             activeLink.classList.add('active');
         } else {
-            const sections = document.querySelectorAll('section');
-            const scrollPos = window.scrollY + 100;
+            // Auto-detect section on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPosition = window.scrollY + 200;
             
             sections.forEach(section => {
-                const top = section.offsetTop;
-                const bottom = top + section.offsetHeight;
-                const id = section.getAttribute('id');
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
                 
-                if (scrollPos >= top && scrollPos <= bottom) {
-                    const correspondingLink = document.querySelector(`a[href="#${id}"]`);
-                    if (correspondingLink) {
-                        correspondingLink.classList.add('active');
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    const activeLink = document.querySelector(`.dock-item[href="#${sectionId}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
                     }
                 }
             });
         }
     }
     
-    // ===== NAVBAR BACKGROUND ON SCROLL =====
-    const navbar = document.querySelector('.navbar');
-    
+    // Update active dock item on scroll
+    let scrollTimeout;
     window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.style.background = 'rgba(10, 10, 15, 0.95)';
-        } else {
-            navbar.style.background = 'rgba(10, 10, 15, 0.8)';
-        }
-        
-        updateActiveNavLink();
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            updateActiveDockItem();
+        }, 100);
     });
-    
-    // ===== MOBILE MENU TOGGLE =====
-    const mobileToggle = document.querySelector('.mobile-toggle');
-    const navLinksContainer = document.querySelector('.nav-links');
-    
-    if (mobileToggle && navLinksContainer) {
-        mobileToggle.addEventListener('click', function() {
-            navLinksContainer.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-    }
     
     // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
     const observerOptions = {
@@ -380,19 +376,34 @@ document.addEventListener('DOMContentLoaded', function() {
         title: item.querySelector('.project-title')?.textContent || 'Unknown'
     })));
     
-    // ===== SIMPLIFIED CARD INTERACTIONS (Desktop Only) =====
+    // ===== 3D CARD MOUSE TRACKING EFFECT (Aceternity Style) =====
     const projectCards3D = document.querySelectorAll('.project-card-3d');
     
-    // Only add hover effects on desktop for better mobile performance
+    // Only add 3D effects on desktop for better performance
     if (window.innerWidth > 768) {
         projectCards3D.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px)';
-            }, { passive: true });
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg tilt
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                this.style.transform = `
+                    translateY(-10px) 
+                    rotateX(${rotateX}deg) 
+                    rotateY(${rotateY}deg)
+                    scale(1.02)
+                `;
+            });
             
             card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0px)';
-            }, { passive: true });
+                this.style.transform = 'translateY(0px) rotateX(0deg) rotateY(0deg) scale(1)';
+            });
         });
     }
     
