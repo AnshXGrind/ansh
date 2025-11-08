@@ -615,12 +615,13 @@ function init3DCarousel() {
         },
         {
             title: 'Lexiscan',
-            description: 'Award-winning document scanning tool with powerful OCR capabilities and intelligent processing.',
+            description: 'Award-winning document scanning tool with powerful OCR capabilities and intelligent processing. Winner of Innovation Hackathon 2024!',
             icon: '📄',
-            gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-            tags: ['React', 'OCR', 'AI Processing'],
+            gradient: 'linear-gradient(135deg, #FFD700 0%, #f093fb 50%, #f5576c 100%)',
+            tags: ['React', 'OCR', 'AI Processing', 'Winner'],
             link: 'https://lexiscandone.vercel.app/',
-            badge: '🏆 Hackathon Winner'
+            badge: '🏆 Hackathon Winner',
+            isWinner: true
         },
         {
             title: 'Palm Reader',
@@ -672,8 +673,11 @@ function init3DCarousel() {
     projects.forEach((project, index) => {
         const card = document.createElement('div');
         card.className = 'carousel-card';
+        if (project.isWinner) {
+            card.classList.add('winner-card');
+        }
         card.innerHTML = `
-            <div class="card-background-gradient">
+            <div class="card-background-gradient" style="background: ${project.gradient}">
                 <div class="card-content">
                     <div class="card-badge">${project.badge}</div>
                     <div class="card-icon" style="background: ${project.gradient}">
@@ -711,26 +715,34 @@ function init3DCarousel() {
     console.log(`📊 Cards in DOM: ${cards.length}, Indicators: ${indicatorDots.length}`);
 
     function updateCarousel() {
-        const angle = 360 / cards.length;
-        const radius = 450;
+        const angle = 360 / cards.length; // 72 degrees for 5 cards
+        const radius = 700; // Increased radius for better spacing
 
         cards.forEach((card, index) => {
             const cardAngle = (angle * index) - (angle * currentIndex);
             const theta = (cardAngle * Math.PI) / 180;
             
-            const x = radius * Math.sin(theta);
-            const z = radius * Math.cos(theta) - radius;
+            // Calculate position
+            const x = Math.sin(theta) * radius;
+            const z = Math.cos(theta) * radius - radius;
             
-            const scale = 1 + (z / radius) * 0.3;
-            const opacity = z > -radius * 0.5 ? 1 : 0.3;
+            // Calculate scale and opacity - keep all cards visible
+            const normalizedZ = (z + radius) / (radius * 2); // 0 to 1
+            const scale = 0.75 + (normalizedZ * 0.35); // Scale from 0.75 to 1.1
+            const opacity = 0.4 + (normalizedZ * 0.6); // Opacity from 0.4 to 1
+            const blur = z < -radius * 0.3 ? 2 : 0; // Slight blur for far cards
             
+            // Apply transform - all cards always visible
             card.style.transform = `
-                rotateY(${-cardAngle}deg) 
-                translateZ(${radius}px)
+                translate3d(${x}px, 0, ${z}px) 
+                rotateY(${-cardAngle}deg)
+                scale(${scale})
             `;
             card.style.opacity = opacity;
-            card.style.zIndex = Math.round(scale * 100);
+            card.style.filter = `blur(${blur}px) brightness(${0.7 + normalizedZ * 0.3})`;
+            card.style.zIndex = Math.round((z + radius) * 10);
 
+            // Add active class to current card
             if (index === currentIndex) {
                 card.classList.add('active');
             } else {
@@ -738,6 +750,7 @@ function init3DCarousel() {
             }
         });
 
+        // Update indicators
         indicatorDots.forEach((dot, index) => {
             dot.classList.toggle('active', index === currentIndex);
         });
@@ -748,7 +761,7 @@ function init3DCarousel() {
         isAnimating = true;
         currentIndex = index;
         updateCarousel();
-        setTimeout(() => { isAnimating = false; }, 1000);
+        setTimeout(() => { isAnimating = false; }, 800);
     }
 
     function nextSlide() {
@@ -762,13 +775,43 @@ function init3DCarousel() {
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
 
-    // Auto-rotate
-    let autoRotate = setInterval(nextSlide, 5000);
+    // Touch/Swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        if (touchEndX < touchStartX - swipeThreshold) {
+            nextSlide(); // Swiped left
+        }
+        if (touchEndX > touchStartX + swipeThreshold) {
+            prevSlide(); // Swiped right
+        }
+    }
+
+    // Auto-rotate (pause on mobile if user is interacting)
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    let autoRotate = setInterval(nextSlide, isMobile ? 6000 : 5000);
 
     carousel.addEventListener('mouseenter', () => clearInterval(autoRotate));
     carousel.addEventListener('mouseleave', () => {
-        autoRotate = setInterval(nextSlide, 5000);
+        autoRotate = setInterval(nextSlide, isMobile ? 6000 : 5000);
     });
+    
+    // Pause auto-rotate on touch
+    carousel.addEventListener('touchstart', () => clearInterval(autoRotate), { passive: true });
+    carousel.addEventListener('touchend', () => {
+        autoRotate = setInterval(nextSlide, isMobile ? 6000 : 5000);
+    }, { passive: true });
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
