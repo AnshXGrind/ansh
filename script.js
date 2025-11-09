@@ -676,6 +676,23 @@ function init3DCarousel() {
         if (project.isWinner) {
             card.classList.add('winner-card');
         }
+        
+        // Check if project requires password
+        const isPasswordProtected = project.title === 'Med Aid AI' || project.title === 'Law Mind';
+        const linkHTML = isPasswordProtected 
+            ? `<button class="card-link password-protected" data-project="${project.title}" data-link="${project.link}">
+                View Project
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M12 7V5C12 2.8 10.2 1 8 1S4 2.8 4 5V7M3 7H13C13.6 7 14 7.4 14 8V14C14 14.6 13.6 15 13 15H3C2.4 15 2 14.6 2 14V8C2 7.4 2.4 7 3 7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>`
+            : `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="card-link">
+                View Project
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 10L10 6M10 6H6M10 6V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </a>`;
+        
         card.innerHTML = `
             <div class="card-background-gradient" style="background: ${project.gradient}">
                 <div class="card-content">
@@ -688,12 +705,7 @@ function init3DCarousel() {
                     <div class="card-tags">
                         ${project.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
                     </div>
-                    <a href="${project.link}" target="_blank" rel="noopener noreferrer" class="card-link">
-                        View Project
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 10L10 6M10 6H6M10 6V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </a>
+                    ${linkHTML}
                 </div>
             </div>
         `;
@@ -850,3 +862,72 @@ const rippleStyles = `
 const style = document.createElement('style');
 style.textContent = rippleStyles;
 document.head.appendChild(style);
+
+// ===== PASSWORD PROTECTION FOR PROJECTS =====
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('password-protected') || e.target.closest('.password-protected')) {
+        const button = e.target.classList.contains('password-protected') ? e.target : e.target.closest('.password-protected');
+        const projectName = button.getAttribute('data-project');
+        const projectLink = button.getAttribute('data-link');
+        
+        // Create modal
+        const modal = document.createElement('div');
+        modal.className = 'password-modal';
+        modal.innerHTML = `
+            <div class="password-modal-content">
+                <div class="password-modal-header">
+                    <h3>🔒 Protected Project</h3>
+                    <button class="password-modal-close">&times;</button>
+                </div>
+                <p class="password-modal-text">Enter password to access <strong>${projectName}</strong></p>
+                <input type="password" class="password-input" placeholder="Enter password" autocomplete="off">
+                <div class="password-modal-actions">
+                    <button class="password-submit">Unlock</button>
+                </div>
+                <p class="password-error" style="display: none;">Incorrect password. Try again.</p>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Focus input
+        const input = modal.querySelector('.password-input');
+        input.focus();
+        
+        // Close modal
+        const closeModal = () => {
+            modal.classList.add('closing');
+            setTimeout(() => modal.remove(), 300);
+        };
+        
+        modal.querySelector('.password-modal-close').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        // Submit password
+        const submitPassword = () => {
+            const password = input.value;
+            const errorMsg = modal.querySelector('.password-error');
+            
+            if (password === '2512') {
+                // Correct password
+                closeModal();
+                window.open(projectLink, '_blank');
+            } else {
+                // Wrong password
+                errorMsg.style.display = 'block';
+                input.value = '';
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 500);
+            }
+        };
+        
+        modal.querySelector('.password-submit').addEventListener('click', submitPassword);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitPassword();
+        });
+        
+        // Animate modal
+        setTimeout(() => modal.classList.add('show'), 10);
+    }
+});
