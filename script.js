@@ -1,5 +1,53 @@
 // ===== MODERN FUTURISTIC JAVASCRIPT =====
 
+// ===== MULTI-STEP PAGE LOADER =====
+window.addEventListener('load', function() {
+    const loader = document.getElementById('pageLoader');
+    const steps = loader.querySelectorAll('.loader-step');
+    const progressBar = loader.querySelector('.progress-bar');
+    
+    let currentStep = 0;
+    const totalSteps = steps.length;
+    const stepDuration = 400; // milliseconds per step
+    
+    function activateStep(index) {
+        if (index >= totalSteps) {
+            // All steps complete, hide loader
+            setTimeout(() => {
+                loader.classList.add('hiding');
+                setTimeout(() => {
+                    loader.classList.remove('active', 'hiding');
+                }, 800);
+            }, 500);
+            return;
+        }
+        
+        // Mark previous steps as completed
+        steps.forEach((step, i) => {
+            if (i < index) {
+                step.classList.remove('active');
+                step.classList.add('completed');
+            } else if (i === index) {
+                step.classList.add('active');
+                step.classList.remove('completed');
+            } else {
+                step.classList.remove('active', 'completed');
+            }
+        });
+        
+        // Update progress bar
+        const progress = ((index + 1) / totalSteps) * 100;
+        progressBar.style.width = progress + '%';
+        
+        // Move to next step
+        currentStep = index + 1;
+        setTimeout(() => activateStep(currentStep), stepDuration);
+    }
+    
+    // Start the loader sequence
+    setTimeout(() => activateStep(0), 300);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // ===== THEME TOGGLE =====

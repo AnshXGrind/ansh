@@ -12,6 +12,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Multi-Step Loader -->
+    <div id="pageLoader" class="page-loader active">
+        <div class="loader-container">
+            <div class="loader-content">
+                <div class="loader-steps">
+                    <div class="loader-step active" data-step="0">
+                        <div class="step-icon">🚀</div>
+                        <div class="step-text">Initializing Portfolio</div>
+                    </div>
+                    <div class="loader-step" data-step="1">
+                        <div class="step-icon">💻</div>
+                        <div class="step-text">Loading Projects</div>
+                    </div>
+                    <div class="loader-step" data-step="2">
+                        <div class="step-icon">🎨</div>
+                        <div class="step-text">Setting up Design</div>
+                    </div>
+                    <div class="loader-step" data-step="3">
+                        <div class="step-icon">⚡</div>
+                        <div class="step-text">Optimizing Performance</div>
+                    </div>
+                    <div class="loader-step" data-step="4">
+                        <div class="step-icon">🏆</div>
+                        <div class="step-text">Loading Achievements</div>
+                    </div>
+                    <div class="loader-step" data-step="5">
+                        <div class="step-icon">✨</div>
+                        <div class="step-text">Almost Ready</div>
+                    </div>
+                    <div class="loader-step" data-step="6">
+                        <div class="step-icon">🎉</div>
+                        <div class="step-text">Welcome to My Portfolio</div>
+                    </div>
+                </div>
+                <div class="loader-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Dock Navigation -->
     <nav class="floating-dock" role="navigation" aria-label="Main navigation">
         <div class="dock-container">
