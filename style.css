@@ -616,6 +616,7 @@ body.light-mode .moon-icon {
         linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
     background-size: 60px 60px;
     animation: gridFloat 20s linear infinite;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
     mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
 }
 
