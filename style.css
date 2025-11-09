@@ -4474,29 +4474,16 @@ body.light-mode .skill-content {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== MULTI-STEP PAGE LOADER ===== */
-.page-loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(15, 15, 30, 0.98) 100%);
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s, visibility 0.5s;
+/* ===== SERVICES & PRICING SECTION ===== */
+.services-page {
+    min-height: 100vh;
+    padding: 6rem 0 4rem;
+    position: relative;
+    background: linear-gradient(180deg, rgba(10, 10, 20, 0.95) 0%, rgba(15, 15, 30, 0.98) 100%);
+    overflow: hidden;
 }
 
-.page-loader.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.page-loader::before {
+.services-page::before {
     content: '';
     position: absolute;
     top: 0;
@@ -4504,164 +4491,41 @@ body.light-mode .skill-content {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(67, 233, 123, 0.1) 0%, transparent 50%);
-    animation: loaderPulse 3s ease-in-out infinite;
+        radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+    pointer-events: none;
 }
 
-@keyframes loaderPulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-}
-
-.loader-container {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 600px;
-    padding: 2rem;
-}
-
-.loader-content {
-    background: linear-gradient(145deg, rgba(20, 20, 40, 0.8) 0%, rgba(30, 30, 50, 0.6) 100%);
-    border: 2px solid rgba(102, 126, 234, 0.2);
-    border-radius: 24px;
-    padding: 3rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.loader-steps {
+.back-button {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 0.5rem;
-    margin-bottom: 2rem;
-}
-
-.loader-step {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1rem;
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.2);
-    opacity: 0.3;
-    transform: translateX(-20px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.loader-step.active {
-    opacity: 1;
-    transform: translateX(0);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(145deg, rgba(20, 20, 40, 0.8) 0%, rgba(30, 30, 50, 0.6) 100%);
     border: 1px solid rgba(102, 126, 234, 0.3);
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
-}
-
-.loader-step.completed {
-    opacity: 0.5;
-    transform: translateX(10px) scale(0.98);
-}
-
-.step-icon {
-    font-size: 2rem;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 12px;
-    flex-shrink: 0;
-    transition: transform 0.3s;
-}
-
-.loader-step.active .step-icon {
-    animation: iconPulse 1s ease-in-out infinite;
-}
-
-@keyframes iconPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-.step-text {
-    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
-    flex-grow: 1;
+    transition: all 0.3s;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.loader-step:not(.active) .step-text {
-    color: rgba(255, 255, 255, 0.4);
+.back-button:hover {
+    transform: translateX(-5px);
+    border-color: #667eea;
+    box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4);
 }
 
-.loader-progress {
-    width: 100%;
-    height: 6px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
+.back-button svg {
+    width: 20px;
+    height: 20px;
 }
 
-.progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #43e97b 100%);
-    background-size: 200% 100%;
-    border-radius: 10px;
-    width: 0%;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: progressShine 2s linear infinite;
-}
-
-@keyframes progressShine {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-.page-loader.hiding {
-    animation: loaderFadeOut 0.8s forwards;
-}
-
-@keyframes loaderFadeOut {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1.1);
-    }
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .loader-container {
-        padding: 1rem;
-    }
-    
-    .loader-content {
-        padding: 2rem 1.5rem;
-    }
-    
-    .loader-step {
-        gap: 1rem;
-        padding: 0.75rem;
-    }
-    
-    .step-icon {
-        font-size: 1.5rem;
-        width: 40px;
-        height: 40px;
-    }
-    
-    .step-text {
-        font-size: 0.95rem;
-    }
-}
-
-/* ===== SERVICES & PRICING SECTION ===== */
 .services-section {
     padding: 8rem 0;
     position: relative;
@@ -4819,7 +4683,6 @@ body.light-mode .skill-content {
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 1.5rem;
     line-height: 1.6;
-    flex-grow: 1;
 }
 
 .service-price {
@@ -4854,7 +4717,8 @@ body.light-mode .skill-content {
 .service-features {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 2rem 0;
+    flex-grow: 1;
 }
 
 .service-features li {
@@ -4871,6 +4735,30 @@ body.light-mode .skill-content {
 
 .service-card:hover .service-features li {
     color: rgba(255, 255, 255, 0.95);
+}
+
+.service-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: all 0.3s;
+    margin-top: auto;
+}
+
+.service-card.featured .service-cta {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #000;
+}
+
+.service-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
 }
 
 /* Payment Section */
@@ -4927,6 +4815,112 @@ body.light-mode .skill-content {
     color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
     font-size: 0.9rem;
+}
+
+/* Why Choose Section */
+.why-choose {
+    margin-top: 5rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.why-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, #fff 0%, #a0a0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.benefit-card {
+    padding: 2rem;
+    background: linear-gradient(145deg, rgba(20, 20, 40, 0.6) 0%, rgba(30, 30, 50, 0.4) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.benefit-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.benefit-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.benefit-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Contact CTA */
+.contact-cta {
+    margin-top: 5rem;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(145deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 24px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.contact-cta h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, #a0a0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-cta p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.5);
+}
+
+.cta-button svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* ===== PASSWORD MODAL ===== */
