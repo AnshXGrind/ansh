@@ -254,9 +254,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ===== 3D CAROUSEL FUNCTIONALITY =====
-    const carousel = document.getElementById('projectCarousel');
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const indicators = document.querySelectorAll('.indicator');
+    // Use the actual carousel id used in the HTML and accept both old/new class names
+    const carousel = document.getElementById('carousel');
+    const carouselItems = document.querySelectorAll('.carousel-card, .carousel-item');
+    const indicators = document.querySelectorAll('.carousel-indicator, .indicator');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const currentProjectSpan = document.querySelector('.current-project');
@@ -599,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
-            if (!achievementsDropdown.contains(e.target)) {
+            if (achievementsDropdown && !achievementsDropdown.contains(e.target)) {
                 achievementsDropdown.classList.remove('active');
             }
         });

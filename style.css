@@ -1317,6 +1317,11 @@ section > * {
     display: block;
 }
 
+/* Utility helper: hide elements using a class instead of inline styles */
+.hidden {
+    display: none;
+}
+
 .profile-glow {
     position: absolute;
     top: 0;

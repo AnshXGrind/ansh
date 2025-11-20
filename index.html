@@ -7,6 +7,8 @@
     <meta name="description" content="Saksham's modern portfolio - Building the future with code">
     <meta name="keywords" content="Saksham, developer, portfolio, futuristic, web development">
     <link rel="stylesheet" href="style.css">
+    <!-- Inline SVG favicon to avoid missing favicon 404s during smoke tests -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext x='0' y='14' font-size='14'%3E⚡%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -179,7 +181,11 @@
                 <div class="about-visual">
                     <div class="profile-container">
                         <div class="profile-image">
-                            <img src="assets/IMG_8115.jpg" alt="Saksham - Future Developer" />
+                               <img src="assets/IMG_8115-800.jpg"
+                                 srcset="assets/IMG_8115-800.jpg 800w, assets/IMG_8115-400.jpg 400w"
+                                 sizes="(max-width: 600px) 400px, 800px"
+                                 loading="lazy"
+                                 alt="Saksham - Future Developer" />
                         </div>
                         <div class="profile-glow"></div>
                     </div>
@@ -222,7 +228,7 @@
             </div>
             
             <!-- Old Grid Layout (Hidden) -->
-            <div class="projects-grid" style="display: none;">
+            <div class="projects-grid hidden">
                 
                 <!-- Project 1: Brain Hub -->
                 <div class="project-card modern-card" data-aos="fade-up">
