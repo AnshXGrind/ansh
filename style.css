@@ -15,9 +15,10 @@
     --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
     --scrollbar-bg: #000000;
     --nav-bg: rgba(0, 0, 0, 0.5);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.8);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.9);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.95);
+    /* Reduce shadow intensity for better performance */
+    --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.6);
+    --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 4px 18px rgba(0, 0, 0, 0.6);
     --grid-color: rgba(255, 255, 255, 0.03);
 }
 
@@ -6135,6 +6136,63 @@ body.light-mode .achievement-item {
 body.light-mode .project-card:hover,
 body.light-mode .achievement-item:hover {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== AGGRESSIVE PERFORMANCE MODE (GLOBAL) ===== */
+/* Remove remaining animated layers, simplify backgrounds and shadows site-wide to reduce paint and compositing costs */
+.bg-grid,
+.bg-gradient,
+.service-gradient,
+.card-background-gradient,
+.hero-background,
+.hero-section,
+.floating-card,
+.service-card,
+.benefit-card,
+.payment-card,
+.project-card,
+.achievement-item {
+    animation: none !important;
+    transition: none !important;
+    background-image: none !important;
+    background: rgba(0,0,0,0.45) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+}
+
+/* Disable expensive pseudo-element glows */
+.service-card::before,
+.service-card.featured::before,
+.dock-container::before,
+.card-background-gradient::before {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+/* Reduce global complex gradient usage to simple color stops */
+body, .container, .service-content, .text-card, .contact-card, .hero-container {
+    background-image: none !important;
+}
+
+/* Replace heavy box-shadows globally with lighter variants */
+* {
+    box-shadow: none !important;
+}
+
+/* Keep small, cheap shadows only where necessary */
+.btn, .service-cta, .back-button {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.45) !important;
+}
+
+/* Disable gpu-intensive filters globally */
+*:not(html):not(body) {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+}
+
+/* Prefer reduced motion fallback (reinforce) */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
 }
 
 /* Strong mobile fallback: remove backdrop-filters and replace with cheap backgrounds */
