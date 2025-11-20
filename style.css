@@ -5253,6 +5253,79 @@ body.light-mode .skill-content {
     transform: translateX(6px);
 }
 
+/* ===== MOBILE OPTIMIZATIONS ===== */
+@media (max-width: 768px) {
+    /* Reduce heavy backdrop blurs and large shadows */
+    :root {
+        --shadow-sm: 0 1px 6px rgba(0,0,0,0.6);
+        --shadow-md: 0 2px 10px rgba(0,0,0,0.6);
+        --shadow-lg: 0 4px 18px rgba(0,0,0,0.6);
+    }
+
+    /* Disable large background animations */
+    .services-page::before,
+    .hero-background .bg-grid,
+    .hero-background .bg-gradient,
+    .service-gradient,
+    .bg-grid,
+    .bg-gradient {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    /* Remove expensive filters */
+    * {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        filter: none !important;
+    }
+
+    /* Reduce card shadows and disable border glows */
+    .service-card,
+    .floating-card,
+    .benefit-card,
+    .payment-card {
+        box-shadow: var(--shadow-sm) !important;
+        transform: none !important;
+        transition: transform 0.2s ease !important;
+    }
+
+    .service-card::before,
+    .service-card.featured::before {
+        opacity: 0 !important;
+    }
+
+    /* Simplify hero visuals */
+    .hero-visual,
+    .floating-card {
+        animation: none !important;
+    }
+
+    /* Disable heavy ripple/big hover effects */
+    .btn::before,
+    .service-cta::before {
+        display: none !important;
+    }
+
+    /* Smaller typography for mobile */
+    .service-title { font-size: 1.25rem !important; }
+    .price-amount { font-size: 2rem !important; }
+    .contact-cta h3 { font-size: 1.6rem !important; }
+
+    /* Prevent expensive transforms on many elements */
+    .project-card-3d,
+    .tech-item,
+    .contact-card {
+        will-change: auto !important;
+        transform: none !important;
+    }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+
 .cta-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 40px rgba(102, 126, 234, 0.5);

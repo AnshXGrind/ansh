@@ -181,34 +181,42 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeWriter, 1000);
     }
     
-    // ===== PARALLAX EFFECT FOR HERO BACKGROUND =====
+    // ===== PARALLAX EFFECT FOR HERO BACKGROUND (desktop only) =====
     const heroBackground = document.querySelector('.hero-background');
+    if (heroBackground && window.innerWidth > 768) {
+        let parallaxTicking = false;
+        window.addEventListener('scroll', function() {
+            if (!parallaxTicking) {
+                parallaxTicking = true;
+                requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const parallax = scrolled * 0.5;
+                    heroBackground.style.transform = `translate3d(0, ${parallax}px, 0)`;
+                    parallaxTicking = false;
+                });
+            }
+        }, { passive: true });
+    }
     
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallax = scrolled * 0.5;
-        
-        if (heroBackground) {
-            heroBackground.style.transform = `translate3d(0, ${parallax}px, 0)`;
-        }
-    });
-    
-    // ===== FLOATING ANIMATION FOR CODE CARD =====
+    // ===== FLOATING ANIMATION FOR CODE CARD (desktop only) =====
     const floatingCard = document.querySelector('.floating-card');
-    if (floatingCard) {
+    if (floatingCard && window.innerWidth > 768) {
         let mouseX = 0;
         let mouseY = 0;
         let cardX = 0;
         let cardY = 0;
         
+        // Use passive listener for touch/mouse where appropriate
         document.addEventListener('mousemove', function(e) {
             mouseX = (e.clientX - window.innerWidth / 2) / 50;
             mouseY = (e.clientY - window.innerHeight / 2) / 50;
-        });
+        }, { passive: true });
         
+        let cardRunning = true;
         function animateCard() {
-            cardX += (mouseX - cardX) * 0.1;
-            cardY += (mouseY - cardY) * 0.1;
+            if (!cardRunning) return;
+            cardX += (mouseX - cardX) * 0.12;
+            cardY += (mouseY - cardY) * 0.12;
             
             floatingCard.style.transform = `translate3d(${cardX}px, ${cardY}px, 0) rotateX(${cardY * 0.5}deg) rotateY(${cardX * 0.5}deg)`;
             
@@ -216,6 +224,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         animateCard();
+        
+        // Pause the floating effect on window blur to save CPU
+        window.addEventListener('blur', () => { cardRunning = false; });
+        window.addEventListener('focus', () => { if (!cardRunning) { cardRunning = true; animateCard(); } });
     }
     
     // ===== FORM HANDLING =====
